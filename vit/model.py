@@ -55,3 +55,42 @@ class ViT(Model):
         output = self.mlp_head(encoded[:, 0])
 
         return output
+
+
+class ViTBase(ViT):
+    def __init__(self, num_classes=10, patch_size=16, image_size=224, dropout=0.1, norm_eps=1e-12):
+        super().__init__(num_layers=12,
+                         num_heads=12,
+                         hidden_dim=768,
+                         mlp_dim=3072,
+                         num_classes=num_classes,
+                         patch_size=patch_size,
+                         image_size=image_size,
+                         dropout=dropout,
+                         norm_eps=norm_eps)
+
+
+class ViTLarge(ViT):
+    def __init__(self, num_classes=10, patch_size=16, image_size=224, dropout=0.1, norm_eps=1e-12):
+        super().__init__(num_layers=24,
+                         num_heads=16,
+                         hidden_dim=1024,
+                         mlp_dim=4096,
+                         num_classes=num_classes,
+                         patch_size=patch_size,
+                         image_size=image_size,
+                         dropout=dropout,
+                         norm_eps=norm_eps)
+
+
+class ViTHuge(ViT):
+    def __init__(self, num_classes=10, patch_size=16, image_size=224, dropout=0.1, norm_eps=1e-12):
+        super().__init__(num_layers=32,
+                         num_heads=16,
+                         hidden_dim=1280,
+                         mlp_dim=5120,
+                         num_classes=num_classes,
+                         patch_size=patch_size,
+                         image_size=image_size,
+                         dropout=dropout,
+                         norm_eps=norm_eps)

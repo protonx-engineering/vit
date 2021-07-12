@@ -1,6 +1,6 @@
 from vit.embedding import PatchEmbedding
 from vit.encoder import TransformerEncoder
-from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.layers import Dense, Flatten, LayerNormalization
 from tensorflow.keras.layers.experimental.preprocessing import Normalization, Resizing, RandomFlip, RandomRotation, RandomZoom
 from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model
@@ -36,9 +36,9 @@ class ViT(Model):
 
         # MLP head
         self.mlp_head = Sequential([
-            Flatten(),
+            LayerNormalization(epsilon=norm_eps),
             Dense(mlp_dim),
-            Dense(num_classes),
+            Dense(num_classes, activation="sigmoid"),
         ])
 
     def call(self, inputs):

@@ -1,3 +1,4 @@
+from tensorflow.python.keras.layers.core import Dropout
 from vit.embedding import PatchEmbedding
 from vit.encoder import TransformerEncoder
 from tensorflow.keras.layers import Dense, Flatten, LayerNormalization
@@ -35,10 +36,15 @@ class ViT(Model):
         )
 
         # MLP head
+        if num_classes == 1:
+            activation = 'sigmoid'
+        else:
+            activation = 'linear'
         self.mlp_head = Sequential([
             LayerNormalization(epsilon=norm_eps),
             Dense(mlp_dim),
-            Dense(num_classes, activation="sigmoid"),
+            Dropout(dropout),
+            Dense(num_classes, activation=activation),
         ])
 
     def call(self, inputs):

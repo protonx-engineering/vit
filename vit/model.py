@@ -36,7 +36,8 @@ class ViT(Model):
         )
 
         # MLP head
-        if num_classes == 1:
+        if num_classes == 2:
+            num_classes = 1
             activation = 'sigmoid'
         else:
             activation = 'linear'

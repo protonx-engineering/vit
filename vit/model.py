@@ -36,15 +36,11 @@ class ViT(Model):
         )
 
         # MLP head
-        if num_classes == 1:
-            activation = 'sigmoid'
-        else:
-            activation = 'linear'
         self.mlp_head = Sequential([
             LayerNormalization(epsilon=norm_eps),
             Dense(mlp_dim),
             Dropout(dropout),
-            Dense(num_classes, activation=activation),
+            Dense(num_classes, activation='softmax'),
         ])
 
     def call(self, inputs):

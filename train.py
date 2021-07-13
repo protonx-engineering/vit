@@ -14,7 +14,7 @@ if __name__ == "__main__":
     model.summary()
 
     optimizer = Adam(learning_rate=0.001)
-    loss = SparseCategoricalCrossentropy(from_logits=True)
+    loss = SparseCategoricalCrossentropy()
     model.compile(optimizer, loss=loss,
                   metrics=['accuracy'])
 

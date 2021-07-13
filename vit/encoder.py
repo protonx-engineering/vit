@@ -3,13 +3,13 @@ from tensorflow.keras import Sequential
 
 
 class MLPBlock(Layer):
-    def __init__(self, hidden_units, dropout=0.1, activation='gelu'):
+    def __init__(self, hidden_layers, dropout=0.1, activation='gelu'):
         super(MLPBlock, self).__init__()
 
         layers = []
-        for units in hidden_units:
+        for num_units in hidden_layers:
             layers.extend([
-                Dense(units, activation=activation),
+                Dense(num_units, activation=activation),
                 Dropout(dropout)
             ])
 
@@ -20,7 +20,7 @@ class MLPBlock(Layer):
 
 
 class TransformerBlock(Layer):
-    def __init__(self, num_heads, dim, hidden_units, dropout=0.1, norm_eps=1e-12):
+    def __init__(self, num_heads, dim, hidden_layers, dropout=0.1, norm_eps=1e-12):
         super(TransformerBlock, self).__init__()
 
         # Attention
@@ -30,7 +30,7 @@ class TransformerBlock(Layer):
         self.norm_attention = LayerNormalization(epsilon=norm_eps)
 
         # MLP
-        self.mlp = MLPBlock(hidden_units, dropout)
+        self.mlp = MLPBlock(hidden_layers, dropout)
         self.norm_mlp = LayerNormalization(epsilon=norm_eps)
 
     def call(self, inputs):
@@ -55,7 +55,7 @@ class TransformerEncoder(Layer):
             [
                 TransformerBlock(num_heads=num_heads,
                                  dim=embed_dim,
-                                 hidden_units=[mlp_dim, embed_dim],
+                                 hidden_layers=[mlp_dim, embed_dim],
                                  dropout=dropout,
                                  norm_eps=norm_eps)
                 for _ in range(num_layers)

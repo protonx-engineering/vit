@@ -27,19 +27,34 @@ class PatchEmbedding(Layer):
         super(PatchEmbedding, self).__init__()
         self.num_patches = (image_size // patch_size) ** 2
 
+        cls_init = tf.zeros_initializer()
+        self.cls_token = tf.Variable(
+            initial_value=cls_init(
+                shape=(1, 1, projection_dim), dtype="float32"),
+            trainable=True,
+        )
+
         self.patches = Patches(patch_size)
         self.projection = Dense(units=projection_dim)
 
         self.position_embedding = Embedding(
-            input_dim=self.num_patches,
+            input_dim=self.num_patches + 1,
             output_dim=projection_dim
         )
 
     def call(self, images):
-        e_pos = tf.range(start=0, limit=self.num_patches, delta=1)
+        e_pos = tf.range(start=0, limit=self.num_patches + 1, delta=1)
         embedded = self.position_embedding(e_pos)
 
         patch = self.patches(images)
+        encoded = self.projection(patch)
 
-        encoded = self.projection(patch) + embedded
+        batch_size = tf.shape(images)[0]
+        hidden_size = tf.shape(encoded)[-1]
+        cls_broadcasted = tf.cast(
+            tf.broadcast_to(self.cls_token, [batch_size, 1, hidden_size]),
+            dtype=images.dtype,
+        )
+        encoded = tf.concat([cls_broadcasted, encoded], axis=1)
+        encoded = encoded + embedded
         return encoded

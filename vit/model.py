@@ -89,6 +89,7 @@ class ViT(Model):
 
         return output
 
+
 class ViTBase(ViT):
     def __init__(self, num_classes=10, patch_size=16, image_size=224, dropout=0.1, norm_eps=1e-12):
         super().__init__(num_layers=12,

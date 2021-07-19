@@ -5,10 +5,10 @@ from tensorflow.keras import Sequential
 class MLPBlock(Layer):
     def __init__(self, hidden_layers, dropout=0.1, activation='gelu'):
         """ MLP Block in Transformer Encoder
-            
+
             Parameters
             ----------
-			hidden_layers: Python array
+            hidden_layers: Python array
                 list of layers for mlp block
             dropout: float,
                 dropout rate of mlp block
@@ -30,16 +30,16 @@ class MLPBlock(Layer):
         """ Pass output of multi-head attention to mlp block
             Parameters
             ----------
-			inputs: tensor,
-                multi-head attention ouputs
+            inputs: tensor,
+                multi-head attention outputs
                 shape: (..., S, D). Example: (64, 100, 768)
             Returns
             -------
             outputs: tensor,
                 attention + mlp outputs
-                shape: shape: (..., S, D). Example: (64, 100, 768)
+                shape: (..., S, D). Example: (64, 100, 768)
         """
-        
+
         outputs = self.mlp(inputs, *args, **kwargs)
         return outputs
 
@@ -47,14 +47,14 @@ class MLPBlock(Layer):
 class TransformerBlock(Layer):
     def __init__(self, num_heads, D, hidden_layers, dropout=0.1, norm_eps=1e-12):
         """ Transformer blocks which includes multi-head attention layer and mlp block
-            
+
             Parameters
             ----------
             num_heads: int,
                 number of heads of multi-head attention layer
-			D: int, 
+            D: int, 
                 size of each attention head for value
-			hidden_layers: Python array
+                        hidden_layers: Python array
                 list of layers for mlp block
             dropout: float,
                 dropout rate of mlp block
@@ -84,11 +84,11 @@ class TransformerBlock(Layer):
             -------
             outputs: tensor,
                 attention + mlp outputs
-                shape: shape: (..., S, D). Example: (64, 100, 768)
+                shape: (..., S, D). Example: (64, 100, 768)
         """
         # Feed attention
         norm_attention = self.norm_attention(inputs)
-        
+
         attention = self.attention(query=norm_attention, value=norm_attention)
 
         # Skip Connection
@@ -149,7 +149,7 @@ class TransformerEncoder(Layer):
             -------
             outputs: tensor,
                 attention + mlp outputs
-                shape: shape: (..., S, D). Example: (64, 100, 768)
+                shape: (..., S, D). Example: (64, 100, 768)
         """
         outputs = self.encoder(inputs, *args, **kwargs)
         return outputs

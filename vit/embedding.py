@@ -7,7 +7,7 @@ class Patches(Layer):
         """ Patches
             Parameters
             ----------
-			patch_size: int
+            patch_size: int
                 size of a patch (P)
         """
         super(Patches, self).__init__()
@@ -17,17 +17,17 @@ class Patches(Layer):
         """ Pass images to get patches
             Parameters
             ----------
-			images: tensor,
+            images: tensor,
                 images from dataset
                 shape: (..., W, H, C). Example: (64, 32, 32, 3)
             Returns
             -------
             patches: tensor,
                 patches extracted from images
-                shape: shape: (..., S, P^2 x C) with S = (HW)/(P^2) Example: (64, 64, 48)
+                shape: (..., S, P^2 x C) with S = (HW)/(P^2) Example: (64, 64, 48)
         """
         batch_size = tf.shape(images)[0]
-        
+
         patches = tf.image.extract_patches(
             images=images,
             sizes=[1, self.patch_size, self.patch_size, 1],
@@ -35,7 +35,7 @@ class Patches(Layer):
             rates=[1, 1, 1, 1],
             padding='VALID',
         )
-        
+
         dim = patches.shape[-1]
 
         patches = tf.reshape(patches, (batch_size, -1, dim))
@@ -47,7 +47,7 @@ class PatchEmbedding(Layer):
         """ PatchEmbedding
             Parameters
             ----------
-			patch_size: int
+            patch_size: int
                 size of a patch (P)
             image_size: int
                 size of a image (H or W)
@@ -71,38 +71,38 @@ class PatchEmbedding(Layer):
         self.projection = Dense(units=projection_dim)
 
         # self.position_embedding shape: (..., S + 1, D)
-        self.position_embedding = self.add_weight("position_embeddings",
+        self.position_embedding = self.add_weight(
+            "position_embeddings",
             shape=[self.num_patches + 1, projection_dim],
             initializer=tf.keras.initializers.RandomNormal(),
             dtype=tf.float32
         )
 
-
     def call(self, images):
         """ Pass images to embed position information 
             Parameters
             ----------
-			images: tensor,
+                        images: tensor,
                 images from dataset
                 shape: (..., W, H, C). Example: (64, 32, 32, 3)
             Returns
             -------
             encoded_patches: tensor,
                 embed patches with position information and concat with cls token
-                shape: shape: (..., S + 1, D) with S = (HW)/(P^2) Example: (64, 65, 768)
+                shape: (..., S + 1, D) with S = (HW)/(P^2) Example: (64, 65, 768)
         """
-        
+
         # Get patches from images
         # patch shape: (..., S, NEW_C)
         patch = self.patches(images)
-        
+
         # encoded_patches shape: (..., S, D)
         encoded_patches = self.projection(patch)
 
         batch_size = tf.shape(images)[0]
-        
+
         hidden_size = tf.shape(encoded_patches)[-1]
-        
+
         # cls_broadcasted shape: (..., 1, D)
         cls_broadcasted = tf.cast(
             tf.broadcast_to(self.cls_token, [batch_size, 1, hidden_size]),
@@ -111,7 +111,7 @@ class PatchEmbedding(Layer):
 
         # encoded_patches shape: (..., S + 1, D)
         encoded_patches = tf.concat([cls_broadcasted, encoded_patches], axis=1)
-        
+
         # encoded_patches shape: (..., S + 1, D)
         encoded_patches = encoded_patches + self.position_embedding
 

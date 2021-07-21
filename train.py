@@ -1,9 +1,9 @@
 from vit.model import ViT, ViTBase, ViTHuge, ViTLarge
 from tensorflow import keras
 from tensorflow.keras.losses import SparseCategoricalCrossentropy
-from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.python.data import Dataset
+import tensorflow_addons as tfa
 import numpy as np
 
 from argparse import ArgumentParser
@@ -25,8 +25,10 @@ if __name__ == "__main__":
                         type=int, help='Number of attention layer')
     parser.add_argument('--mlp-size', default=128,
                         type=int, help='Size of hidden layer in MLP block')
-    parser.add_argument('--lr', default=0.01,
+    parser.add_argument('--lr', default=0.001,
                         type=float, help='Learning rate')
+    parser.add_argument('--weight-decay', default=1e-4,
+                        type=float, help='Weight decay')
     parser.add_argument('--batch-size', default=32, type=int,
                         help='Batch size')
     parser.add_argument('--epochs', default=10, type=int,
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     model.build(input_shape=(None, args.image_size,
                              args.image_size, args.image_channels))
 
-    optimizer = Adam(learning_rate=args.lr)
+    optimizer = tfa.optimizers.AdamW(learning_rate=args.lr, weight_decay=1e-4)
     loss = SparseCategoricalCrossentropy()
     model.compile(optimizer, loss=loss,
                   metrics=['accuracy'])

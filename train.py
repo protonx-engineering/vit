@@ -13,9 +13,9 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--model', default='custom', type=str,
                         help='Type of ViT model, valid option: custom, base, large, huge')
-    parser.add_argument('--classes', default=10,
+    parser.add_argument('--num-classes', default=10,
                         type=int, help='Number of classes')
-    parser.add_argument('--path-size', default=2,
+    parser.add_argument('--patch-size', default=2,
                         type=int, help='Size of image patch')
     parser.add_argument('--num-heads', default=4,
                         type=int, help='Number of attention heads')
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         print("Data folder is not set. Use CIFAR 10 dataset")
 
         args.image_channels = 3
-        args.classes = 10
+        args.num_classes = 10
 
         (x_train, y_train), (x_val, y_val) = keras.datasets.cifar10.load_data()
         x_train = (x_train.reshape(-1, args.image_size, args.image_size,

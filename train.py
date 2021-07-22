@@ -70,9 +70,9 @@ if __name__ == "__main__":
 
         (x_train, y_train), (x_val, y_val) = keras.datasets.cifar10.load_data()
         x_train = (x_train.reshape(-1, args.image_size, args.image_size,
-                                   args.image_channels) / 255.0).astype(np.float32)
+                                   args.image_channels)).astype(np.float32)
         x_val = (x_val.reshape(-1, args.image_size, args.image_size,
-                               args.image_channels) / 255.0).astype(np.float32)
+                               args.image_channels)).astype(np.float32)
 
         # create dataset
         train_ds = Dataset.from_tensor_slices((x_train, y_train))

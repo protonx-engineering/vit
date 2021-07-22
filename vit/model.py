@@ -36,7 +36,6 @@ class ViT(Model):
         super(ViT, self).__init__()
         # Data augmentation
         self.data_augmentation = Sequential([
-            # Normalization(),
             Rescaling(scale=1./255),
             Resizing(image_size, image_size),
             RandomFlip("horizontal"),

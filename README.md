@@ -39,19 +39,22 @@ main_directory/
 We create `train.py` for training model.
 
 ```
-usage: train.py [-h] [--model MODEL] [--classes CLASSES]
-                [--path-size PATH_SIZE] [--num-heads NUM_HEADS]
+usage: train.py [-h] [--model MODEL] [--num-classes NUM_CLASSES]
+                [--patch-size PATCH_SIZE] [--num-heads NUM_HEADS]
                 [--att-size ATT_SIZE] [--num-layer NUM_LAYER]
-                [--mlp-size MLP_SIZE] [--lr LR] [--batch-size BATCH_SIZE]
-                [--epochs EPOCHS] [--image-size IMAGE_SIZE]
-                [--image-channels IMAGE_CHANNELS] [--train-folder TRAIN_FOLDER]
-                [--valid-folder VALID_FOLDER] [--model-folder MODEL_FOLDER]
+                [--mlp-size MLP_SIZE] [--lr LR] [--weight-decay WEIGHT_DECAY]
+                [--batch-size BATCH_SIZE] [--epochs EPOCHS]
+                [--image-size IMAGE_SIZE] [--image-channels IMAGE_CHANNELS]
+                [--train-folder TRAIN_FOLDER] [--valid-folder VALID_FOLDER]
+                [--model-folder MODEL_FOLDER]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --model MODEL         Type of ViT model, valid option: custom, base, large, huge
-  --classes CLASSES     Number of classes
-  --path-size PATH_SIZE
+  --model MODEL         Type of ViT model, valid option: custom, base, large,
+                        huge
+  --num-classes NUM_CLASSES
+                        Number of classes
+  --patch-size PATCH_SIZE
                         Size of image patch
   --num-heads NUM_HEADS
                         Number of attention heads
@@ -60,6 +63,8 @@ optional arguments:
                         Number of attention layer
   --mlp-size MLP_SIZE   Size of hidden layer in MLP block
   --lr LR               Learning rate
+  --weight-decay WEIGHT_DECAY
+                        Weight decay
   --batch-size BATCH_SIZE
                         Batch size
   --epochs EPOCHS       Number of training epoch
@@ -77,7 +82,7 @@ optional arguments:
 
 There are some `important` arguments for the script you should consider when running it:
 
-- `train-folder`: The folder of training images
+- `train-folder`: The folder of training images. If you not specify this argument, the script will use the CIFAR-10 dataset for training.
 - `valid-folder`: The folder of validation images
 - `num-classes`: The number of your problem classes.
 - `batch-size`: The batch size of the dataset
@@ -87,10 +92,10 @@ There are some `important` arguments for the script you should consider when run
 
 Example:
 
-You want to train a model in 10 epochs for binary classification problems (with 2 classes)
+You want to train a model in 10 epochs with CIFAR-10 dataset:
 
 ```bash
-python train.py --epochs 10 --num-classes 2
+python train.py --epochs 10 --num-classes 10
 ```
 
 After training successfully, your model will be saved to `model-folder` defined before

@@ -113,7 +113,8 @@ if __name__ == "__main__":
     model.build(input_shape=(None, args.image_size,
                              args.image_size, args.image_channels))
 
-    optimizer = tfa.optimizers.AdamW(learning_rate=args.lr, weight_decay=1e-4)
+    optimizer = tfa.optimizers.AdamW(
+        learning_rate=args.lr, weight_decay=args.weight_decay)
     loss = SparseCategoricalCrossentropy()
     model.compile(optimizer, loss=loss,
                   metrics=['accuracy'])

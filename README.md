@@ -47,10 +47,11 @@ We create `train.py` for training model.
 usage: train.py [-h] [--model MODEL] [--num-classes CLASSES]
                 [--patch-size PATH_SIZE] [--num-heads NUM_HEADS]
                 [--att-size ATT_SIZE] [--num-layer NUM_LAYER]
-                [--mlp-size MLP_SIZE] [--lr LR] [--batch-size BATCH_SIZE]
-                [--epochs EPOCHS] [--image-size IMAGE_SIZE]
-                [--image-channels IMAGE_CHANNELS] [--train-folder TRAIN_FOLDER]
-                [--valid-folder VALID_FOLDER] [--model-folder MODEL_FOLDER]
+                [--mlp-size MLP_SIZE] [--lr LR] [--weight-decay WEIGHT_DECAY]
+                [--batch-size BATCH_SIZE] [--epochs EPOCHS]
+                [--image-size IMAGE_SIZE] [--image-channels IMAGE_CHANNELS]
+                [--train-folder TRAIN_FOLDER] [--valid-folder VALID_FOLDER]
+                [--model-folder MODEL_FOLDER]
 
 optional arguments:
   -h, --help            
@@ -104,7 +105,7 @@ optional arguments:
 
 There are some `important` arguments for the script you should consider when running it:
 
-- `train-folder`: The folder of training images
+- `train-folder`: The folder of training images. If you not specify this argument, the script will use the CIFAR-10 dataset for training.
 - `valid-folder`: The folder of validation images
 - `num-classes`: The number of your problem classes.
 - `batch-size`: The batch size of the dataset
@@ -114,7 +115,7 @@ There are some `important` arguments for the script you should consider when run
 
 Example:
 
-You want to train a model in 10 epochs for binary classification problems (with 2 classes)
+You want to train a model in 10 epochs with CIFAR-10 dataset:
 
 ```bash
 !python train.py --train-folder ${train_folder} --valid-folder ${valid_folder} --num-classes 2 --patch-size 5 --image-size 150 --lr 0.0001 --epochs 200 --num-heads 12 

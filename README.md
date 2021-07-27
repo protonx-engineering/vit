@@ -2,6 +2,10 @@
 
 Our implementation of paper: [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929), using [tensorflow 2](https://www.tensorflow.org/)
 
+Thử nghiệm với Colab
+
+<a href="https://colab.research.google.com/drive/1cUVnTe4XN-RFCEYZZZPqSz4roTA_uCHD?usp=sharing"><img src="https://storage.googleapis.com/protonx-cloud-storage/colab_favicon_256px.png" width=80> </a>
+
 ![Vision transformer](docs/images/vit.png)
 
 > Vision transformer model architecture (figure from the paper)

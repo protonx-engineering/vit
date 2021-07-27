@@ -43,8 +43,20 @@ if __name__ == "__main__":
                         help='Where validation data is located')
     parser.add_argument('--model-folder', default='.output/',
                         type=str, help='Folder to save trained model')
-
+    
+    
     args = parser.parse_args()
+    print('---------------------Welcome to ProtonX MLP Mixer-------------------')
+    print('Github: bangoc123 and tiena2cva')
+    print('Email: protonxai@gmail.com')
+    print('---------------------------------------------------------------------')
+    print('Training Vit Transformer model with hyper-params:')
+    print('===========================')
+    for i, arg in enumerate(vars(args)):
+        print('{}.{}: {}'.format(i, arg, vars(args)[arg]))
+    print('===========================')
+
+    
 
     if args.train_folder != '' and args.valid_folder != '':
         # Load train images from folder

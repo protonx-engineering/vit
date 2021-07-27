@@ -6,6 +6,11 @@ Our implementation of paper: [An Image is Worth 16x16 Words: Transformers for Im
 
 > Vision transformer model architecture (figure from the paper)
 
+Author:
+
+- Github: bangoc123 and tiena2cva
+- Email: protonxai@gmail.com
+
 ### I. Set up environment
 
 1. Make sure you have installed Miniconda. If not yet, see the setup document [here](https://conda.io/en/latest/user-guide/install/index.html#regular-installation).
@@ -39,8 +44,8 @@ main_directory/
 We create `train.py` for training model.
 
 ```
-usage: train.py [-h] [--model MODEL] [--classes CLASSES]
-                [--path-size PATH_SIZE] [--num-heads NUM_HEADS]
+usage: train.py [-h] [--model MODEL] [--num-classes CLASSES]
+                [--patch-size PATH_SIZE] [--num-heads NUM_HEADS]
                 [--att-size ATT_SIZE] [--num-layer NUM_LAYER]
                 [--mlp-size MLP_SIZE] [--lr LR] [--batch-size BATCH_SIZE]
                 [--epochs EPOCHS] [--image-size IMAGE_SIZE]
@@ -48,31 +53,53 @@ usage: train.py [-h] [--model MODEL] [--classes CLASSES]
                 [--valid-folder VALID_FOLDER] [--model-folder MODEL_FOLDER]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  --model MODEL         Type of ViT model, valid option: custom, base, large, huge
-  --classes CLASSES     Number of classes
-  --path-size PATH_SIZE
-                        Size of image patch
+  -h, --help            
+    show this help message and exit
+
+  --model MODEL       
+    Type of ViT model, valid option: custom, base, large, huge
+
+  --num-classes CLASSES     
+    Number of classes
+  
+  --patch-size PATH_SIZE
+    Size of image patch
+  
   --num-heads NUM_HEADS
-                        Number of attention heads
-  --att-size ATT_SIZE   Size of each attention head for value
+    Number of attention heads
+  
+  --att-size ATT_SIZE   
+    Size of each attention head for value
+  
   --num-layer NUM_LAYER
-                        Number of attention layer
-  --mlp-size MLP_SIZE   Size of hidden layer in MLP block
-  --lr LR               Learning rate
+    Number of attention layer
+  
+  --mlp-size MLP_SIZE   
+    Size of hidden layer in MLP block
+  
+  --lr LR               
+    Learning rate
+  
   --batch-size BATCH_SIZE
-                        Batch size
-  --epochs EPOCHS       Number of training epoch
+    Batch size
+  
+  --epochs EPOCHS       
+    Number of training epoch
+  
   --image-size IMAGE_SIZE
-                        Size of input image
+    Size of input image
+  
   --image-channels IMAGE_CHANNELS
-                        Number channel of input image
+    Number channel of input image
+  
   --train-folder TRAIN_FOLDER
-                        Where training data is located
+    Where training data is located
+  
   --valid-folder VALID_FOLDER
-                        Where validation data is located
+    Where validation data is located
+  
   --model-folder MODEL_FOLDER
-                        Folder to save trained model
+    Folder to save trained model
 ```
 
 There are some `important` arguments for the script you should consider when running it:
@@ -83,14 +110,14 @@ There are some `important` arguments for the script you should consider when run
 - `batch-size`: The batch size of the dataset
 - `lr`: The learning rate of Adam Optimizer
 - `model-folder`: Where the model after training saved
-- `model`: The type of model you want to train. If you want to train with `base` or `large` or `huge` model, you not need to specify `path-size`, `num-heads`, `att-size` and `mlp-size` argument.
+- `model`: The type of model you want to train. If you want to train with `base` or `large` or `huge` model, you need to specify `patch-size`, `num-heads`, `att-size` and `mlp-size` argument.
 
 Example:
 
 You want to train a model in 10 epochs for binary classification problems (with 2 classes)
 
 ```bash
-python train.py --epochs 10 --num-classes 2
+!python train.py --train-folder ${train_folder} --valid-folder ${valid_folder} --num-classes 2 --patch-size 5 --image-size 150 --lr 0.0001 --epochs 200 --num-heads 12 
 ```
 
 After training successfully, your model will be saved to `model-folder` defined before

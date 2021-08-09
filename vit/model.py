@@ -66,6 +66,8 @@ class ViT(Model):
             Dense(num_classes, activation='softmax'),
         ])
 
+        self.last_layer_norm = LayerNormalization(epsilon=norm_eps)
+
     def call(self, inputs):
         # Create augmented data
         # augmented shape: (..., image_size, image_size, c)
@@ -82,10 +84,14 @@ class ViT(Model):
         # Embedded CLS
         # embedded_cls shape: (..., D)
         embedded_cls = encoded[:, 0]
-
+        
+        # Last layer norm
+        y = self.last_layer_norm(embedded_cls)
+        
         # Feed MLP head
         # output shape: (..., num_classes)
-        output = self.mlp_head(embedded_cls)
+
+        output = self.mlp_head(y)
 
         return output
 

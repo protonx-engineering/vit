@@ -6,9 +6,7 @@ Thử nghiệm với Colab
 
 <a href="https://colab.research.google.com/drive/1cUVnTe4XN-RFCEYZZZPqSz4roTA_uCHD?usp=sharing"><img src="https://storage.googleapis.com/protonx-cloud-storage/colab_favicon_256px.png" width=80> </a>
 
-![Vision transformer](docs/images/vit.png)
-
-> Vision transformer model architecture (figure from the paper)
+![Vision transformer](https://storage.googleapis.com/protonx-cloud-storage/images/arc.PNG)
 
 Author:
 
